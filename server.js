@@ -1,6 +1,7 @@
 const express = require("express");
 const line = require("@line/bot-sdk");
 const PORT = process.env.PORT || 3000;
+const axios = require("axios");
 
 const config = {
   channelAccessToken:
@@ -21,10 +22,24 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  return client.replyMessage(event.replyToken, {
-    type: "text",
-    text: event.message.text,
-  });
+  axios
+    .get(
+      "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
+    )
+    .then((response) => {
+      return client.replyMessage(event.replyToken, {
+        type: "text",
+        text: response.data,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  //   return client.replyMessage(event.replyToken, {
+  //     type: "text",
+  //     text: event.message.text,
+  //   });
 }
 
 app.listen(PORT, () => {
