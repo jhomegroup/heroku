@@ -22,10 +22,23 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  return client.replyMessage(event.replyToken, {
-    type: "text",
-    text: event.message.text,
-  });
+  axios
+    .get(
+      "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
+    )
+    .then((response) => {
+      console.log(response.data.data);
+      response.data.data.forEach((element) => {
+        console.log(element.ptname);
+        return client.replyMessage(event.replyToken, {
+          type: "text",
+          text: element.ptname,
+        });
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 app.listen(PORT, () => {
