@@ -1,21 +1,6 @@
-// const express = require("express");
-// const app = express();
-// const PORT = process.env.PORT || 8080;
-
-// app.get("/", (req, res) => {
-//   res.json({ result: "ok", data: [1, 2, 3, 4, 5] });
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Serer is running. ${PORT}`);
-// });
-
 const express = require("express");
-const app = express();
 const line = require("@line/bot-sdk");
 const PORT = process.env.PORT || 3000;
-
-const axios = require("axios");
 
 const config = {
   channelAccessToken:
@@ -23,6 +8,7 @@ const config = {
   channelSecret: "c128d16d64b047d5d5daceafa7de542b",
 };
 
+const app = express();
 app.post("/webhook", line.middleware(config), (req, res) => {
   Promise.all(req.body.events.map(handleEvent)).then((result) =>
     res.json(result)
@@ -35,20 +21,10 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  axios
-    .get(
-      "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
-    )
-    .then((response) => {
-      console.log(response.data);
-      return client.replyMessage(event.replyToken, {
-        type: "text",
-        text: response.data,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return client.replyMessage(event.replyToken, {
+    type: "text",
+    text: event.message.text,
+  });
 }
 
 app.listen(PORT, () => {
