@@ -1,31 +1,46 @@
-var mysql = require("mysql");
-var connection = mysql.createConnection({
-  host: "192.168.108.2",
-  user: "root",
-  password: "wanorn",
-  database: "ehosxp",
+const express = require("express");
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+const axios = require("axios");
+
+// app.get("/", async (req, res) => {
+//   try {
+//     const response = await axios({
+//       url: "https://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704",
+//       method: "get",
+//     });
+//     res.status(200).json({'asd': response});
+//   } catch (err) {
+//     res.status(500).json({ message: err });
+//   }
+// });
+
+app.get("/", (req, res) => {
+  //   axios
+  //     .get(
+  //       `https://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704`
+  //     )
+  //     .then((resp) => {
+  //       console.log(resp);
+  //       res.json({ result: "ok", data: "asd" });
+  //     });
+
+  //   const axios = require("axios");
+
+  axios
+    .get(
+      "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
+    )
+    .then((response) => {
+      console.log(response.data);
+      res.json({ result: "ok", data: response.data });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
-connection.connect();
-
-connection.query(
-  "SELECT * FROM opduser LIMIT 10",
-  function (error, results, fields) {
-    if (error) throw error;
-    console.log("The solution is: ", results[0].solution);
-  }
-);
-
-connection.end();
-
-// const express = require("express");
-// const app = express();
-// const PORT = process.env.PORT || 8080;
-
-// app.get("/", (req, res) => {
-//   res.json({ result: "ok", data: [1, 2, 3, 4, 5] });
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Serer is running. ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Serer is running. ${PORT}`);
+});

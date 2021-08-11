@@ -37,15 +37,17 @@ function handleEvent(event) {
 
   axios
     .get(
-      `https://vhome.wanorn.com/lab_result/frontend/api/lab_results/${event.message.text}`
+      "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
     )
-    .then((res) => {
-      console.log(res);
-
+    .then((response) => {
+      console.log(response.data);
       return client.replyMessage(event.replyToken, {
         type: "text",
-        text: res,
+        text: response.data,
       });
+    })
+    .catch((error) => {
+      console.log(error);
     });
 }
 
