@@ -17,36 +17,28 @@ app.post("/webhook", line.middleware(config), (req, res) => {
 });
 
 const client = new line.Client(config);
-async function handleEvent(event) {
+function handleEvent(event) {
   if (event.type !== "message" || event.message.type !== "text") {
     return Promise.resolve(null);
   }
 
-  const data = await axios.get(
-    "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
-  );
-
-  data.data.data.forEach((element) => {
-    console.log(element.ptname);
-    return client.replyMessage(event.replyToken, {
-      type: "text",
-      text: element.cid,
+  axios
+    .get(
+      "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
+    )
+    .then((response) => {
+      response.data.data.forEach((element) => {
+        if (event.message.text == element.cid) {
+          return client.replyMessage(event.replyToken, {
+            type: "text",
+            text: element.ptname,
+          });
+        }
+      });
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  });
-  
-  // .then((response) => {
-  //   console.log(response.data.data);
-  //   response.data.data.forEach((element) => {
-  //     console.log(element.ptname);
-  //     return client.replyMessage(event.replyToken, {
-  //       type: "text",
-  //       text: element.cid,
-  //     });
-  //   });
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
 }
 
 app.listen(PORT, () => {
