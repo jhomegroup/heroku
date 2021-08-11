@@ -32,7 +32,7 @@ function handleEvent(event) {
         console.log(element.ptname);
         return client.replyMessage(event.replyToken, {
           type: "text",
-          text: element,
+          text: element.cid,
         });
       });
     })
