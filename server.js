@@ -27,9 +27,12 @@ function handleEvent(event) {
       "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
     )
     .then((response) => {
+      console.log(response.data.data);
+      //   res.json({ result: "ok", data: response.data.data });
+
       return client.replyMessage(event.replyToken, {
         type: "text",
-        text: response.data,
+        text: response.data.data,
       });
     })
     .catch((error) => {

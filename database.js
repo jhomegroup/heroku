@@ -33,8 +33,8 @@ app.get("/", (req, res) => {
       "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
     )
     .then((response) => {
-      console.log(response.data);
-      res.json({ result: "ok", data: response.data });
+      console.log(response.data.data);
+      res.json({ result: "ok", data: response.data.data });
     })
     .catch((error) => {
       console.log(error);
