@@ -31,10 +31,7 @@ function handleEvent(event) {
         if (event.message.text == element.cid) {
           return client.replyMessage(event.replyToken, {
             type: "text",
-            text: `ชื่อ : ${element.ptname}\r\n
-            ตรวจ : ${element.lab_items_name_ref}\r\n
-            วันที่ : ${element.report_date}\r\n
-            ผลตรวจ : ${element.lab_order_result}\r\n`,
+            text: `ชื่อ : ${element.ptname}\n ตรวจ : ${element.lab_items_name_ref}\n วันที่ : ${element.report_date}\n ผลตรวจ : ${element.lab_order_result}\n`,
           });
         }
       });
