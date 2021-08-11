@@ -30,7 +30,7 @@ function handleEvent(event) {
       response.data.data.forEach((element) => {
         return client.replyMessage(event.replyToken, {
           type: "text",
-          text: `\n ชื่อ : ${element.ptname}\n ตรวจ : ${element.lab_items_name_ref}\n วันที่ : ${element.report_date}\n ผลตรวจ : ${element.lab_order_result}\n`,
+          text: ` ข้อมูลผลตรวจโควิด รพ.วานร \n ชื่อ : ${element.ptname}\n ตรวจ : ${element.lab_items_name_ref}\n วันที่ : ${element.report_date}\n ผลตรวจ : ${element.lab_order_result}\n`,
         });
       });
     })
