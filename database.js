@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
     .then((response) => {
       console.log(response.data.data);
       response.data.data.forEach((element) => {
-        console.log(element.ptname);
+        console.log(element);
       });
       res.json({ data: response.data.data });
     })
