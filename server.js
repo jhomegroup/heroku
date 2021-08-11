@@ -24,16 +24,14 @@ function handleEvent(event) {
 
   axios
     .get(
-      "http://vhome.wanorn.com/lab_result/frontend/api/lab_results/1470801515704"
+      `http://vhome.wanorn.com/lab_result/frontend/api/lab_results/${event.message.text}`
     )
     .then((response) => {
       response.data.data.forEach((element) => {
-        if (event.message.text == element.cid) {
-          return client.replyMessage(event.replyToken, {
-            type: "text",
-            text: `ชื่อ : ${element.ptname}\n ตรวจ : ${element.lab_items_name_ref}\n วันที่ : ${element.report_date}\n ผลตรวจ : ${element.lab_order_result}\n`,
-          });
-        }
+        return client.replyMessage(event.replyToken, {
+          type: "text",
+          text: `\n ชื่อ : ${element.ptname}\n ตรวจ : ${element.lab_items_name_ref}\n วันที่ : ${element.report_date}\n ผลตรวจ : ${element.lab_order_result}\n`,
+        });
       });
     })
     .catch((error) => {
