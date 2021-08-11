@@ -15,6 +15,8 @@ const app = express();
 const line = require("@line/bot-sdk");
 const PORT = process.env.PORT || 3000;
 
+const axios = require("axios");
+
 const config = {
   channelAccessToken:
     "YjCiTcq1Lj6MeprbL8l1Qr6I8r6TP607zjrCH4Gnfl2jTTxE6xf74imYP968csryfBwJOkk9cIQplpyrrt7CBoJU6gIkxIg4w9kZjV1ze1jybg+pHosy5I5UiIE8hGiVPsZtVv9RsIHTT3f8mkwTPwdB04t89/1O/w1cDnyilFU=",
@@ -33,10 +35,18 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  return client.replyMessage(event.replyToken, {
-    type: "text",
-    text: event.message.text,
-  });
+  axios
+    .get(
+      `https://vhome.wanorn.com/lab_result/frontend/api/lab_results/${event.message.text}`
+    )
+    .then((res) => {
+      console.log(res);
+
+      return client.replyMessage(event.replyToken, {
+        type: "text",
+        text: res,
+      });
+    });
 }
 
 app.listen(PORT, () => {
